@@ -77,6 +77,20 @@ struct movie* processMovieFile(char* filePath) {
 }
 
 /*Interactive Functions*/
+void moviesByYear(struct movie *head, int year){
+    struct movie *curr = head;
+    int found = 0;
+    while (curr){
+        if(curr->year == year){
+            printf("%s\n", curr->title);
+            found = 1;
+        }
+        curr = curr->next;
+    }
+    if(!found){
+        printf("No data about movies released in the year %d\n", year);
+    }
+}
 
 
 /*Freeing up memory allocated for linked list*/
@@ -103,7 +117,10 @@ void menu(struct movie *head) {
         scanf("%d", &choice);
 
         if(choice == 1) {
-            printf("Showing year: ");
+            int year;
+            printf("Enter the year for which you want to see movies: ");
+            scanf("%d", &year);
+            moviesByYear(head, year);
         } else if(choice == 2) {
             printf("Show high rated movies");
         } else if(choice ==3) {
