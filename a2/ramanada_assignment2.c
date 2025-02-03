@@ -146,7 +146,7 @@ void moviesByLanguage(struct movie *head, char *language) {
     }
 
     if(!found) {
-        printf("No data about movies released in %s\n", language);
+        printf("\nNo data about movies released in %s\n", language);
     }
 }
 
@@ -180,7 +180,7 @@ void menu(struct movie *head) {
             moviesByYear(head, year);
         } else if(choice == 2) {
             highestRatedMovies(head);
-        } else if(choice ==3) {
+        } else if(choice == 3) {
             char language[21];
             printf("Enter the language for which you want to see movies: ");
             scanf("%s", language);
