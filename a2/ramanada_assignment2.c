@@ -130,7 +130,7 @@ void moviesByLanguage(struct movie *head, char *language) {
         strcpy(langcopy, curr->languages);
 
         char *savePtr;
-        char *token = strtok_r(langcopy, "[];", &savePtr);
+        char *token = strtok_r(langcopy + 1, ";]", &savePtr);
 
         while(token){
             if(strcmp(token, language) == 0){
@@ -138,7 +138,7 @@ void moviesByLanguage(struct movie *head, char *language) {
                 found = 1;
                 break;
             }
-            token = strtok_r(NULL, "[];", &savePtr);
+            token = strtok_r(NULL, "];", &savePtr);
         }
 
         free(langcopy);
