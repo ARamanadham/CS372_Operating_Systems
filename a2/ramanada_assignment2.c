@@ -98,7 +98,7 @@ void moviesByYear(struct movie *head, int year){
 }
 
 /*Displays the highest-rated movie for each year in the list*/
-void highestRated(struct movie *head){
+void highestRatedMovies(struct movie *head){
     struct movie *curr = head;
     
     //array length of year max - year min
@@ -116,6 +116,37 @@ void highestRated(struct movie *head){
         if(rateList[i]){
             printf("%d %.1f %s\n", rateList[i]->year, rateList[i]->rating, rateList[i]->title);
         }
+    }
+}
+
+/*Finding a movie based on language*/
+void moviesByLanguage(struct movie *head, char *language) {
+    struct movie *curr = head;
+    int found = 0;
+
+    // make use of strtok_r to parse through the list of strings, code adapated from explorations
+    while(curr) {
+        char *langcopy = malloc(strlen(curr->languages) + 1);
+        strcpy(langcopy, curr->languages);
+
+        char *savePtr;
+        char *token = strtok_r(langcopy, "[];", &savePtr);
+
+        while(token){
+            if(strcmp(token, language) == 0){
+                printf("%d %s\n", curr->year, curr->title);
+                found = 1;
+                break;
+            }
+            token = strtok_r(NULL, "[];", &savePtr);
+        }
+
+        free(langcopy);
+        curr = curr->next;
+    }
+
+    if(!found) {
+        printf("No data about movies released in %s\n", language);
     }
 }
 
@@ -148,9 +179,12 @@ void menu(struct movie *head) {
             scanf("%d", &year);
             moviesByYear(head, year);
         } else if(choice == 2) {
-            highestRated(head);
+            highestRatedMovies(head);
         } else if(choice ==3) {
-            printf("language search");
+            char language[21];
+            printf("Enter the language for which you want to see movies: ");
+            scanf("%s", language);
+            moviesByLanguage(head, language);
         }
     } while (choice != 4);
 }
