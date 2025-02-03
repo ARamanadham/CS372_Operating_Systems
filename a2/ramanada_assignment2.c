@@ -138,7 +138,7 @@ void moviesByLanguage(struct movie *head, char *language) {
                 found = 1;
                 break;
             }
-            token = strtok_r(NULL, "];", &savePtr);
+            token = strtok_r(NULL, ";]", &savePtr);
         }
 
         free(langcopy);
