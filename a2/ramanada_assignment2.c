@@ -92,6 +92,25 @@ void freeMovies(struct movie *head) {
 }
 
 /*options to be presented to user*/
+void menu(struct movie *head) {
+    int choice;
+    do {
+        printf("\n1. Show movies released in the specified year\n");
+        printf("2. Show highest rated movie for each year\n");
+        printf("3. Show the title and year of release of all movies in a specific language\n");
+        printf("4. Exit from the program\n");
+        printf("\nEnter a choice from 1 to 4: ");
+        scanf("%d", &choice);
+
+        if(choice == 1) {
+            printf("Showing year: ");
+        } else if(choice == 2) {
+            printf("Show high rated movies");
+        } else if(choice ==3) {
+            printf("language search");
+        }
+    } while (choice != 4);
+}
 
 /*Main function call adapted from assignment code example*/
 int main(int argc, char **argv) {
@@ -102,6 +121,7 @@ int main(int argc, char **argv) {
     }
     
     struct movie *head = processMovieFile(argv[1]);
+    menu(head);
     freeMovies(head);
     return EXIT_SUCCESS;
 }
