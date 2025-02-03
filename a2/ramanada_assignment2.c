@@ -102,8 +102,7 @@ void highestRated(struct movie *head){
     struct movie *curr = head;
     
     //array length of year max - year min
-    int len = YEAR_MAX - YEAR_MIN + 1;
-    struct movie *rateList[len];
+    struct movie *rateList[122] = {NULL};
 
     while(curr){ 
         int index = curr->year-1900;
@@ -113,7 +112,7 @@ void highestRated(struct movie *head){
         curr = curr->next;
     }
 
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i < 122; i++){
         if(rateList[i]){
             printf("%d %.1f %s\n", rateList[i]->year, rateList[i]->rating, rateList[i]->title);
         }
