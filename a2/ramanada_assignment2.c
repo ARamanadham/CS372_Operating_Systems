@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define YEAR_MAX 2021
+#define YEAR_MIN 1900
+
 //Define movie structure adapted from exploration code
 struct movie {
     const *title;
@@ -77,6 +80,8 @@ struct movie* processMovieFile(char* filePath) {
 }
 
 /*Interactive Functions*/
+
+/*Takes the year indicated by user and iterates through the linked list returning titles if there is data for that year*/
 void moviesByYear(struct movie *head, int year){
     struct movie *curr = head;
     int found = 0;
@@ -92,6 +97,34 @@ void moviesByYear(struct movie *head, int year){
     }
 }
 
+/*Displays the highest-rated movie for each year in the list*/
+void highestRated(struct movie *head){
+    struct movie *curr = head;
+    
+    //array length of year max - year min
+    int len = YEAR_MAX - YEAR_MIN + 1;
+    struct movie **ratingList = calloc(len, sizeof(struct movie*));
+
+    struct movie *curr = head;
+    while(curr) {
+        int index = curr->year - YEAR_MIN;
+        if(index >=0 && index < len){
+            if(!ratingList[index] || curr->rating > ratingList[index]->rating){
+                ratingList[index] = curr;
+            }
+        }
+        curr = curr->next;
+    }
+
+    for(int i = 0; i < len; i++){
+        if(ratingList[i]) {
+            printf("%d %.1f %s\n", ratingList[i]->year, ratingList[i]->rating, ratingList[i]->title);
+        }
+        
+    }
+
+    free(ratingList);
+}
 
 /*Freeing up memory allocated for linked list*/
 void freeMovies(struct movie *head) {
@@ -122,7 +155,7 @@ void menu(struct movie *head) {
             scanf("%d", &year);
             moviesByYear(head, year);
         } else if(choice == 2) {
-            printf("Show high rated movies");
+            highestRated(head);
         } else if(choice ==3) {
             printf("language search");
         }
