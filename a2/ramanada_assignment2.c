@@ -7,7 +7,7 @@
 
 //Define movie structure adapted from exploration code
 struct movie {
-    const *title;
+    char *title;
     int year;
     char *languages;
     float rating;
@@ -103,27 +103,21 @@ void highestRated(struct movie *head){
     
     //array length of year max - year min
     int len = YEAR_MAX - YEAR_MIN + 1;
-    struct movie **ratingList = calloc(len, sizeof(struct movie*));
+    struct movie *rateList[len];
 
-    struct movie *curr = head;
-    while(curr) {
-        int index = curr->year - YEAR_MIN;
-        if(index >=0 && index < len){
-            if(!ratingList[index] || curr->rating > ratingList[index]->rating){
-                ratingList[index] = curr;
-            }
+    while(curr){ 
+        int index = curr->year-1900;
+        if(!rateList[index] || curr->rating > rateList[index]->rating) {
+            rateList[index] = curr;
         }
         curr = curr->next;
     }
 
     for(int i = 0; i < len; i++){
-        if(ratingList[i]) {
-            printf("%d %.1f %s\n", ratingList[i]->year, ratingList[i]->rating, ratingList[i]->title);
+        if(rateList[i]){
+            printf("%d %.1f %s\n", rateList[i]->year, rateList[i]->rating, rateList[i]->title);
         }
-        
     }
-
-    free(ratingList);
 }
 
 /*Freeing up memory allocated for linked list*/
