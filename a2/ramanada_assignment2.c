@@ -71,6 +71,7 @@ struct movie* processMovieFile(char* filePath) {
             tail = newMovie;
         }
         movieCount++;
+        printf("%s", currLine);
     }
 
     free(currLine);
