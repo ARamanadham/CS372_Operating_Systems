@@ -10,17 +10,24 @@ int dirsearch(void){
     struct dirent *entry;
     struct stat dirStat;
 
+    size_t maxSize = 0;
+    char *largestFile;
     currDir = opendir(".");
 
     while((entry = readdir(currDir)) != NULL){
         if(stat(entry->d_name, &dirStat) == 0 && S_ISREG(dirStat.st_mode)){
             if(strncmp(entry->d_name, "movies_", 7) == 0){
                 if(strstr(entry->d_name, ".csv") != NULL){
-                    printf("%s size: %ld\n", entry->d_name, dirStat.st_size);
+                    if(dirStat.st_size > maxSize){
+                        maxSize =  dirStat.st_size;
+                        largestFile = entry->d_name;
+                    }
                 }
             }
         }
     }
+
+    printf("%s size: %ld", largestFile, maxSize);
 
     closedir(currDir);
     return 0;
