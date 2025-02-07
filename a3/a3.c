@@ -1,6 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
+
+int dirsearch(void){
+    DIR* currDir;
+    struct dirent *entry;
+    struct stat dirStat;
+
+    currDir = opendir(".");
+
+    while((entry = readdir(currDir)) != NULL){
+        stat(entry->d_name, &dirStat);
+        printf("%s modified at %ld\n", entry->d_name, dirStat.st_mtime);
+    }
+
+    closedir(currDir);
+    return 0;
+}
 
 void menu(){
     int choice;
