@@ -26,8 +26,8 @@ void menu(){
     do {
         printf("1. Select file to process\n");
         printf("2. Exit the progrm\n");
-        printf("Enter a choice 1 or 2: ");
-        scanf("%d", &choice);
+        printf("\nEnter a choice 1 or 2: ");
+        scanf("%d\n", &choice);
 
         if(choice == 1){
             int secondchoice;
@@ -35,7 +35,7 @@ void menu(){
             printf("Enter 1 to pick the largest file\n");
             printf("Enter 2 to pick the smallest file\n");
             printf("Enter 3 to specify the name of a file\n");
-            printf("Enter a choice from 1 to 3: ");
+            printf("\nEnter a choice from 1 to 3: ");
             scanf("%d", &secondchoice);
             if(secondchoice == 1){
                 printf("Largest file\n");
