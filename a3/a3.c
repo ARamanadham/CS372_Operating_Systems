@@ -27,7 +27,7 @@ int dirsearch(void){
         }
     }
 
-    printf("%s size: %ld", largestFile, maxSize);
+    printf("%s size: %ld\n", largestFile, maxSize);
 
     closedir(currDir);
     return 0;
