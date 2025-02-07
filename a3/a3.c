@@ -32,13 +32,8 @@ void menu(){
     } while (choice != 2);
 }
 
-int main(int argc, char **argv) {
-    if(argc < 2) {
-        printf("You must provide the name of the file to process\n");
-        printf("Example: ./movies movie_list.csv\n");
-        return EXIT_FAILURE;
-    }
-    
+int main(void) {
+
     menu();
-    return EXIT_SUCCESS;
+    return 0;
 }
