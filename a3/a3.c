@@ -26,7 +26,6 @@ void menu(){
                 printf("file name\n");
             } else{
                 printf("You entered an incorrect choice. Try again.\n");
-                break;
             }
         }
 
