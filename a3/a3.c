@@ -5,7 +5,8 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-int dirsearch(void){
+// code adapted from exploration: directories
+int largestFile(void){
     DIR* currDir;
     struct dirent *entry;
     struct stat dirStat;
@@ -13,10 +14,12 @@ int dirsearch(void){
     size_t maxSize = 0;
     char *largestFile;
     currDir = opendir(".");
-
+    
+    // checking that the file is a regular file that is prefixed with "movies_" and is a .csv file
     while((entry = readdir(currDir)) != NULL){
         if(stat(entry->d_name, &dirStat) == 0 && S_ISREG(dirStat.st_mode)){
             if(strncmp(entry->d_name, "movies_", 7) == 0){
+                //strstr found in man pages 
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
@@ -27,8 +30,42 @@ int dirsearch(void){
         }
     }
 
-    printf("%s size: %ld\n", largestFile, maxSize);
+    printf("Now processing the chosen file named %s\n", largestFile);
 
+    closedir(currDir);
+    return 0;
+}
+
+// code adapted from exploration: directories
+int smallestFile(void){
+    DIR* currDir;
+    struct dirent *entry;
+    struct stat dirStat;
+
+    //Size_MAX found in man page for size_t
+    size_t minSize = 0;
+    char *smallestFile;
+    int firstFile = 0; // Flag to track first file to have initial minimum size
+
+    currDir = opendir(".");
+    while((entry = readdir(currDir)) != NULL){
+        if(stat(entry->d_name, &dirStat) == 0 && S_ISREG(dirStat.st_mode)){
+            if(strncmp(entry->d_name, "movies_", 7) == 0){
+                if(strstr(entry->d_name, ".csv") != NULL){
+                    if(!firstFile){
+                        minSize = dirStat.st_size;
+                        smallestFile = entry->d_name;
+                        firstFile = 1; //update flag so this doesn't trigger again
+                    } else if (dirStat.st_size < minSize) {
+                        minSize = dirStat.st_size;
+                        smallestFile = entry->d_name;
+                    }                    
+                }
+            }
+        }
+    }
+
+    printf("Now processing the chosen file named %s\n", smallestFile);
     closedir(currDir);
     return 0;
 }
@@ -50,7 +87,7 @@ void menu(){
             printf("\nEnter a choice from 1 to 3: ");
             scanf("%d", &secondchoice);
             if(secondchoice == 1){
-                dirsearch();
+                largestFile();
             } else if (secondchoice == 2){
                 printf("smallest file\n\n");
             } else if (secondchoice == 3){
