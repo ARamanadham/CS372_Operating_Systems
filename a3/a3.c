@@ -31,20 +31,20 @@ void menu(){
 
         if(choice == 1){
             int secondchoice;
-            printf("Which file you want to process?\n");
+            printf("\nWhich file you want to process?\n");
             printf("Enter 1 to pick the largest file\n");
             printf("Enter 2 to pick the smallest file\n");
             printf("Enter 3 to specify the name of a file\n");
             printf("\nEnter a choice from 1 to 3: ");
             scanf("%d", &secondchoice);
             if(secondchoice == 1){
-                printf("Largest file\n");
+                printf("Largest file\n\n");
             } else if (secondchoice == 2){
-                printf("smallest file\n");
+                printf("smallest file\n\n");
             } else if (secondchoice == 3){
-                printf("file name\n");
+                printf("file name\n\n");
             } else{
-                printf("You entered an incorrect choice. Try again.\n");
+                printf("You entered an incorrect choice. Try again.\n\n");
             }
         }
 
