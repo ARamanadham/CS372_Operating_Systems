@@ -27,7 +27,7 @@ void menu(){
         printf("1. Select file to process\n");
         printf("2. Exit the progrm\n");
         printf("\nEnter a choice 1 or 2: ");
-        scanf("%d\n", &choice);
+        scanf("%d", &choice);
 
         if(choice == 1){
             int secondchoice;
