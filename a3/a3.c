@@ -38,7 +38,7 @@ void menu(){
             printf("\nEnter a choice from 1 to 3: ");
             scanf("%d", &secondchoice);
             if(secondchoice == 1){
-                printf("Largest file\n\n");
+                dirsearch();
             } else if (secondchoice == 2){
                 printf("smallest file\n\n");
             } else if (secondchoice == 3){
