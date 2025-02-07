@@ -14,7 +14,7 @@ int dirsearch(void){
 
     while((entry = readdir(currDir)) != NULL){
         stat(entry->d_name, &dirStat);
-        printf("%s modified at %ld\n", entry->d_name, dirStat.st_size);
+        printf("%s size: %ld\n", entry->d_name, dirStat.st_size);
     }
 
     closedir(currDir);
