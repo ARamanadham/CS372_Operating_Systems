@@ -89,7 +89,7 @@ void menu(){
             if(secondchoice == 1){
                 largestFile();
             } else if (secondchoice == 2){
-                printf("smallest file\n\n");
+                smallestFile();
             } else if (secondchoice == 3){
                 printf("file name\n\n");
             } else{
