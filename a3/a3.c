@@ -70,6 +70,7 @@ int smallestFile(void){
     return 0;
 }
 
+//Adapted from my assignment 2 menu code
 void menu(){
     int choice;
     do {
