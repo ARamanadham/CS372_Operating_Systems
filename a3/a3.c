@@ -66,8 +66,11 @@ char* smallestFile(void){
                         strcpy(smallestFile, entry->d_name);
                         firstFile = 1; //update flag so this doesn't trigger again
                     } else if (dirStat.st_size < minSize) {
-                        free(smallestFile);
                         minSize = dirStat.st_size;
+
+                        if(smallestFile != NULL){
+                            free(smallestFile);
+                        }
                         smallestFile = malloc(strlen(entry->d_name) + 1);
                         strcpy(smallestFile, entry->d_name);                    }                    
                 }
@@ -104,8 +107,8 @@ void menu(){
                     break;
                 } else if (secondchoice == 2){
                     char *smallest = smallestFile();
-                    free(smallest);
                     printf("Now processing the chosen file named %s\n\n", smallest);
+                    free(smallest);
                     break;
                 } else if (secondchoice == 3){
                     char fname;
