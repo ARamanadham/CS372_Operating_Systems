@@ -85,8 +85,8 @@ char* smallestFile(void){
 
 //process file adapated from exploration code
 void processFile(char* inputFilePath){
-    char *currLine = NULL;
-    size_t len = 0;
+    //char *currLine = NULL;
+    //size_t len = 0;
 
     srandom(time(NULL));
     int randNum = random() % 100000;
@@ -104,36 +104,41 @@ void processFile(char* inputFilePath){
         return;
     }
 
+    char title[30];
+    int year;
+    char lang[100];
+    double rating;
+
+    char line[100];
+    char *sp;
+
     FILE *inputFile = fopen(inputFilePath, "r");
     if(inputFile == NULL){
         printf("Error: Could not open file %s\n", inputFilePath);
         return;
     }
 
-    while(fgets(currLine, len, inputFile) != NULL){
-        char *title = NULL;
-        char *yearStr = NULL;
-        char *lang = NULL;
-        char *rating = NULL;
-        int year; 
+    while(fgets(line, 100, inputFile) != NULL){
 
-        title = strtok(currLine, ",");
-        yearStr = strtok(NULL, ",");
-        lang = strtok(NULL, ",");
-        rating = strtok(NULL, ",");
+        sp = strtok(line, ",");
+        strcpy(title, sp);
 
-        if (yearStr != NULL){
-            year = atoi(yearStr);
-        }
+        sp = strtok(NULL, ",");
+        year = atoi(sp);
 
-        if (title != NULL && yearStr != NULL){
+        sp = strtok(NULL, ",");
+        strcpy(lang, sp);
+
+        sp = strtok(NULL, ",");
+        rating = atof(sp);
+
+        if (title != NULL && year != NULL){
             printf("Title: %s, Year: %d", title, year);
         } else {
-            printf("Error parsing line: %s\n", currLine);
+            printf("Error parsing line: %s\n", line);
         }
     }
-
-    free(currLine);
+    //free(currLine);
     fclose(inputFile);
 }
 //Adapted from my assignment 2 menu code
