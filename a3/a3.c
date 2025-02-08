@@ -87,7 +87,6 @@ char* smallestFile(void){
 void processFile(char* inputFilePath){
     char *currLine = NULL;
     size_t len = 0;
-    int lineNum = 1;
 
     srandom(time(NULL));
     int randNum = random() % 100000;
@@ -111,9 +110,23 @@ void processFile(char* inputFilePath){
         return;
     }
 
-    while(getline(&currLine, &len, inputFile) != -1){
-        printf("%d: %s", lineNum, currLine);
-        lineNum++;
+    while(fgets(currLine, len, inputFile) != NULL){
+        char *title = NULL;
+        char *yearStr = NULL;
+        int year; 
+
+        title = strtok(currLine, ",");
+        yearStr = strtok(NULL, ",");
+
+        if (yearStr != NULL){
+            year = atoi(yearStr);
+        }
+
+        if (title != NULL && yearStr != NULL){
+            printf("Title: %s, Year: %d", title, year);
+        } else {
+            printf("Error parsing line: %s\n", currLine);
+        }
     }
 
     free(currLine);
