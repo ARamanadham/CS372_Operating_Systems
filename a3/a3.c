@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <time.h>
 
 // code adapted from exploration: directories
 char* largestFile(void){
@@ -88,6 +89,22 @@ void processFile(char* inputFilePath){
     size_t len = 0;
     int lineNum = 1;
 
+    srandom(time(NULL));
+    int randNum = random() % 100000;
+
+    char *outputDir = malloc(22); //ramanada.moves. (16 chars) + 5 (random num) + null terminator
+
+    printf("\nNow processing the chosen file named: %s\n", inputFilePath);
+    sprintf(outputDir, "ramanada.movies.%d", randNum);
+
+    if(mkdir(outputDir, 0750) == 0){
+        printf("Created directory with name %s\n", outputDir);
+    } else{
+        perror("Error creating directory");
+        free(outputDir);
+        return;
+    }
+
     FILE *inputFile = fopen(inputFilePath, "r");
     if(inputFile == NULL){
         printf("Error: Could not open file %s\n", inputFilePath);
@@ -122,7 +139,7 @@ void menu(){
                 scanf("%d", &secondchoice);
                 if(secondchoice == 1){
                     char *largest = largestFile();
-                    printf("Now processing the chosen file named %s\n\n", largest);
+                    //printf("Now processing the chosen file named %s\n\n", largest);
                     processFile(largest);
                     free(largest);
                     break;
