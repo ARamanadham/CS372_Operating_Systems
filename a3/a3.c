@@ -90,6 +90,7 @@ void menu(){
                 if(secondchoice == 1){
                     char *largest = largestFile();
                     printf("\nNow processing the chosen file named %s\n\n", largest);
+                    free(largest);
                     break;
                 } else if (secondchoice == 2){
                     smallestFile();
