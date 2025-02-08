@@ -6,6 +6,17 @@
 #include <sys/stat.h>
 #include <time.h>
 
+#define MAX_LANGS 5
+#define MAX_LEN 20
+
+struct movie{
+    char *title;
+    int year;
+    char languages[MAX_LANGS][MAX_LEN];
+    double rating;
+    struct movie *next;
+};
+
 // code adapted from exploration: directories
 char* largestFile(void){
     DIR* currDir;
@@ -104,42 +115,22 @@ void processFile(char* inputFilePath){
         return;
     }
 
-    char title[30];
-    int year;
-    char lang[100];
-    double rating;
-
-    char line[100];
-    char *sp;
-
     FILE *inputFile = fopen(inputFilePath, "r");
     if(inputFile == NULL){
         printf("Error: Could not open file %s\n", inputFilePath);
         return;
     }
 
-    while(fgets(line, 100, inputFile) != NULL){
+    char buffer[1024];
 
-        sp = strtok(line, ",");
-        strcpy(title, sp);
+    fgets(buffer, sizeof(buffer), inputFile);
 
-        sp = strtok(NULL, ",");
-        year = atoi(sp);
-
-        sp = strtok(NULL, ",");
-        strcpy(lang, sp);
-
-        sp = strtok(NULL, ",");
-        rating = atof(sp);
-
-        if (title != NULL && year != NULL){
-            printf("Title: %s, Year: %d", title, year);
-        } else {
-            printf("Error parsing line: %s\n", line);
-        }
+    while(fgets(buffer, sizeof(buffer), inputFile) != NULL){
+        printf("%s", buffer);
     }
-    //free(currLine);
+
     fclose(inputFile);
+    free(outputDir);
 }
 //Adapted from my assignment 2 menu code
 void menu(){
