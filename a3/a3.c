@@ -62,6 +62,14 @@ void moviesByYear(struct movie *head, const char *outputDir){
 
         char *outputFilePath = malloc(strlen(outputDir) + strlen(fName) + 1);
         sprintf(outputFilePath, "%s%s", outputDir, fName);
+
+        FILE *outputFile = fopen(outputFilePath, "a");
+        if(outputFile != NULL){
+            fprintf(outputFile, "%s\n", curr->title);
+            fclose(outputFile);
+        } 
+
+        free(outputFilePath);
         curr = curr->next;
     }
 }
@@ -211,7 +219,7 @@ void processFile(char* inputFilePath){
     }
     moviesByYear(movieList, outputDir);
     fclose(inputFile);
-    printMovie(movieList);
+    //printMovie(movieList);
     freeMovie(movieList);
     free(outputDir);
 }
