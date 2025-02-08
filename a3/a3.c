@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 // code adapted from exploration: directories
-int largestFile(void){
+char* largestFile(void){
     DIR* currDir;
     struct dirent *entry;
     struct stat dirStat;
@@ -23,17 +23,16 @@ int largestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
-                        largestFile = entry->d_name;
+                        free(largestFile);
+                        largestFile = strdup(entry->d_name);
                     }
                 }
             }
         }
     }
 
-    printf("Now processing the chosen file named %s\n", largestFile);
-
     closedir(currDir);
-    return 0;
+    return largestFile;
 }
 
 // code adapted from exploration: directories
@@ -73,7 +72,7 @@ int smallestFile(void){
 //Adapted from my assignment 2 menu code
 void menu(){
     int choice;
-    do {
+    do{
         printf("1. Select file to process\n");
         printf("2. Exit the progrm\n");
         printf("\nEnter a choice 1 or 2: ");
@@ -89,10 +88,12 @@ void menu(){
                 printf("\nEnter a choice from 1 to 3: ");
                 scanf("%d", &secondchoice);
                 if(secondchoice == 1){
-                    largestFile();
+                    char *largest = largestFile();
+                    printf("\nNow processing the chosen file named %s\n\n", largest);
                     break;
                 } else if (secondchoice == 2){
                     smallestFile();
+                    printf("\n");
                     break;
                 } else if (secondchoice == 3){
                     char fname;
@@ -104,8 +105,8 @@ void menu(){
                     if(stat(&fname, &dirStat) == 0){
                         printf("Processing file: %s\n\n", &fname);
                         break;
-                    } else {
-                        printf("The file %s was not found. Try again", &fname);
+                    } else{
+                        printf("The file %s was not found. Try again\n", &fname);
                     }
                 } else{
                     printf("You entered an incorrect choice. Try again.\n\n");
