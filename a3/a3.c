@@ -41,14 +41,14 @@ char* largestFile(void){
 }
 
 // code adapted from exploration: directories
-int smallestFile(void){
+char* smallestFile(void){
     DIR* currDir;
     struct dirent *entry;
     struct stat dirStat;
 
     //Size_MAX found in man page for size_t
     size_t minSize = 0;
-    char *smallestFile;
+    char *smallestFile = NULL;
     int firstFile = 0; // Flag to track first file to have initial minimum size
 
     currDir = opendir(".");
@@ -58,20 +58,25 @@ int smallestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(!firstFile){
                         minSize = dirStat.st_size;
-                        smallestFile = entry->d_name;
+
+                        if(smallestFile != NULL){
+                            free(smallestFile);
+                        }
+                        smallestFile = malloc(strlen(entry->d_name) + 1);
+                        strcpy(smallestFile, entry->d_name);
                         firstFile = 1; //update flag so this doesn't trigger again
                     } else if (dirStat.st_size < minSize) {
+                        free(smallestFile);
                         minSize = dirStat.st_size;
-                        smallestFile = entry->d_name;
-                    }                    
+                        smallestFile = malloc(strlen(entry->d_name) + 1);
+                        strcpy(smallestFile, entry->d_name);                    }                    
                 }
             }
         }
     }
 
-    printf("Now processing the chosen file named %s\n", smallestFile);
     closedir(currDir);
-    return 0;
+    return smallestFile;
 }
 
 //Adapted from my assignment 2 menu code
@@ -94,12 +99,13 @@ void menu(){
                 scanf("%d", &secondchoice);
                 if(secondchoice == 1){
                     char *largest = largestFile();
-                    printf("\nNow processing the chosen file named %s\n\n", largest);
+                    printf("Now processing the chosen file named %s\n\n", largest);
                     free(largest);
                     break;
                 } else if (secondchoice == 2){
-                    smallestFile();
-                    printf("\n");
+                    char *smallest = smallestFile();
+                    free(smallest);
+                    printf("Now processing the chosen file named %s\n\n", smallest);
                     break;
                 } else if (secondchoice == 3){
                     char fname;
