@@ -17,6 +17,61 @@ struct movie{
     struct movie *next;
 };
 
+struct movie* createMovie(char* title, int year, char* languages, double rating){
+    struct movie* newMovie = malloc(sizeof(struct movie));
+
+    newMovie->title = calloc(strlen(title) + 1, sizeof(char));
+    strcpy(newMovie->title, title);
+
+    newMovie->year = year;
+
+    int langIdx = 0;
+    char* token = strtok(languages, "[];");
+    while(token !=NULL && langIdx < MAX_LANGS){
+        strncpy(newMovie->languages[langIdx], token, MAX_LEN-1);
+        newMovie->languages[langIdx][MAX_LEN-1] = '\0';
+        langIdx++;
+        token = strtok(NULL, "[];");
+    }
+
+    newMovie->rating = rating;
+
+    newMovie->next = NULL;
+    return newMovie;
+}
+
+//moved the linked list logic to seperate function
+void appendMovie(struct movie** head, struct movie* newMovie){
+    if (*head == NULL){
+        *head = newMovie;
+    } else {
+        struct movie* temp = *head;
+        while (temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newMovie;
+    }
+}
+
+//printing linked list
+void printMovie(struct movie* head){
+    struct movie* temp = head;
+    while(temp != NULL){
+        printf("Movie Title: %s,", temp->title);
+        printf("Year: %d", temp->year);
+        temp = temp->next;
+    }
+}
+
+void freeMovie(struct movie* head){
+    while (head != NULL){
+        struct movie* temp = head;
+        head = head->next;
+        free(temp->title);
+        free(temp);
+    }
+}
+
 // code adapted from exploration: directories
 char* largestFile(void){
     DIR* currDir;
@@ -122,6 +177,7 @@ void processFile(char* inputFilePath){
     }
 
     char buffer[1024];
+    struct movie* movieList = NULL;
 
     fgets(buffer, sizeof(buffer), inputFile);
 
@@ -138,13 +194,13 @@ void processFile(char* inputFilePath){
 
         int year = atoi(yearStr);
         double rating = atof(ratingStr);
-        printf("Title: %s,", title);
-        printf("Year: %d,", year);
-        printf("Langs: %s,", langs);
-        printf("Rating: %.1f\n", rating);
+        struct movie* newMovie = createMovie(title, year, langs, rating);
+        appendMovie(&movieList, newMovie);
     }
 
     fclose(inputFile);
+    printMovie(movieList);
+    freeMovie(movieList);
     free(outputDir);
 }
 //Adapted from my assignment 2 menu code
