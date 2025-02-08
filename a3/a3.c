@@ -12,7 +12,7 @@ char* largestFile(void){
     struct stat dirStat;
 
     size_t maxSize = 0;
-    char *largestFile;
+    char *largestFile = NULL;
     currDir = opendir(".");
     
     // checking that the file is a regular file that is prefixed with "movies_" and is a .csv file
