@@ -126,7 +126,22 @@ void processFile(char* inputFilePath){
     fgets(buffer, sizeof(buffer), inputFile);
 
     while(fgets(buffer, sizeof(buffer), inputFile) != NULL){
-        printf("%s", buffer);
+        char* title;
+        char* yearStr;
+        char* langs;
+        char* ratingStr;
+
+        title = strtok(buffer, ",");
+        yearStr = strtok(NULL, ",");
+        langs = strtok(NULL, ",");
+        ratingStr = strtok(NULL, ",");
+
+        int year = atoi(yearStr);
+        double rating = atof(ratingStr);
+        printf("Title: %s,", title);
+        printf("Year: %d,", year);
+        printf("Langs: %s,", langs);
+        printf("Rating: %.1f\n", rating);
     }
 
     fclose(inputFile);
