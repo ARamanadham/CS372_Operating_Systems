@@ -53,6 +53,18 @@ void appendMovie(struct movie** head, struct movie* newMovie){
     }
 }
 
+
+void moviesByYear(struct movie *head, const char *outputDir){
+    struct movie *curr = head;
+
+    while(curr){
+        char fName[9]; //YYYY.txt + null terminator
+
+        char *outputFilePath = malloc(strlen(outputDir) + strlen(fName) + 1);
+        sprintf(outputFilePath, "%s%s", outputDir, fName);
+        curr = curr->next;
+    }
+}
 //printing linked list
 void printMovie(struct movie* head){
     struct movie* temp = head;
@@ -197,7 +209,7 @@ void processFile(char* inputFilePath){
         struct movie* newMovie = createMovie(title, year, langs, rating);
         appendMovie(&movieList, newMovie);
     }
-
+    moviesByYear(movieList, outputDir);
     fclose(inputFile);
     printMovie(movieList);
     freeMovie(movieList);
