@@ -113,10 +113,14 @@ void processFile(char* inputFilePath){
     while(fgets(currLine, len, inputFile) != NULL){
         char *title = NULL;
         char *yearStr = NULL;
+        char *lang = NULL;
+        char *rating = NULL;
         int year; 
 
         title = strtok(currLine, ",");
         yearStr = strtok(NULL, ",");
+        lang = strtok(NULL, ",");
+        rating = strtok(NULL, ",");
 
         if (yearStr != NULL){
             year = atoi(yearStr);
