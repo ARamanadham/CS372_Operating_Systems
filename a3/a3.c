@@ -82,6 +82,26 @@ char* smallestFile(void){
     return smallestFile;
 }
 
+//process file adapated from exploration code
+void processFile(char* inputFilePath){
+    char *currLine = NULL;
+    size_t len = 0;
+    int lineNum = 1;
+
+    FILE *inputFile = fopen(inputFilePath, "r");
+    if(inputFile == NULL){
+        printf("Error: Could not open file %s\n", inputFilePath);
+        return;
+    }
+
+    while(getline(&currLine, &len, inputFile) != -1){
+        printf("%d: %s", lineNum, currLine);
+        lineNum++;
+    }
+
+    free(currLine);
+    fclose(inputFile);
+}
 //Adapted from my assignment 2 menu code
 void menu(){
     int choice;
@@ -103,6 +123,7 @@ void menu(){
                 if(secondchoice == 1){
                     char *largest = largestFile();
                     printf("Now processing the chosen file named %s\n\n", largest);
+                    processFile(largest);
                     free(largest);
                     break;
                 } else if (secondchoice == 2){
