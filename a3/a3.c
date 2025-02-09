@@ -102,7 +102,7 @@ char* largestFile(void){
     struct stat dirStat;
 
     size_t maxSize = 0;
-    char *largestFile = NULL;
+    char *largestFile = NULL, *tempFile = NULL;
     currDir = opendir(".");
     
     // checking that the file is a regular file that is prefixed with "movies_" and is a .csv file
@@ -113,8 +113,11 @@ char* largestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
-                        free(largestFile);
-                        largestFile = strdup(entry->d_name);
+                        tempFile = strdup(entry->d_name);
+                        if (tempFile){
+                            free(largestFile);
+                            largestFile = tempFile;
+                        }
                     }
                 }
             }
@@ -133,7 +136,7 @@ char* smallestFile(void){
 
     //Size_MAX found in man page for size_t
     size_t minSize = SIZE_MAX;
-    char *smallestFile = NULL;
+    char *smallestFile = NULL, *tempFile = NULL;
     //int firstFile = 0; // Flag to track first file to have initial minimum size
 
     currDir = opendir(".");
@@ -143,8 +146,11 @@ char* smallestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if (dirStat.st_size < minSize) {
                         minSize = dirStat.st_size;
-                        free(smallestFile);
-                        smallestFile = (entry->d_name);                    
+                        tempFile = strdup(entry->d_name);
+                        if(tempFile){
+                            free(smallestFile);
+                            smallestFile = tempFile;
+                        }
                     }                    
                 }
             }
