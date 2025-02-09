@@ -114,7 +114,7 @@ char* largestFile(void){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
                         free(largestFile);
-                        strdup(entry->d_name);
+                        largestFile = strdup(entry->d_name);
                     }
                 }
             }
@@ -144,7 +144,7 @@ char* smallestFile(void){
                     if (dirStat.st_size < minSize) {
                         minSize = dirStat.st_size;
                         free(smallestFile);
-                        strdup(entry->d_name);                    
+                        smallestFile = (entry->d_name);                    
                     }                    
                 }
             }
