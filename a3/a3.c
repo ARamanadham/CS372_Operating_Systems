@@ -113,13 +113,8 @@ char* largestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
-
-                        if(largestFile != NULL){
-                            free(largestFile);
-                        }
-                        
-                        largestFile = malloc(strlen(entry->d_name) + 1);
-                        strcpy(largestFile, entry->d_name);
+                        free(largestFile);
+                        strdup(entry->d_name);
                     }
                 }
             }
@@ -148,12 +143,9 @@ char* smallestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if (dirStat.st_size < minSize) {
                         minSize = dirStat.st_size;
-
-                        if(smallestFile != NULL){
-                            free(smallestFile);
-                        }
-                        smallestFile = malloc(strlen(entry->d_name) + 1);
-                        strcpy(smallestFile, entry->d_name);                    }                    
+                        free(smallestFile);
+                        strdup(entry->d_name);                    
+                    }                    
                 }
             }
         }
