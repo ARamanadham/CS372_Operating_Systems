@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,6 +6,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <unistd.h>
 
 #define MAX_LANGS 5
 #define MAX_LEN 20
@@ -63,11 +65,19 @@ void moviesByYear(struct movie *head, const char *outputDir){
         char *outputFilePath = malloc(strlen(outputDir) + strlen(fName) + 1);
         sprintf(outputFilePath, "%s%s", outputDir, fName);
 
-        FILE *outputFile = fopen(outputFilePath, "a");
-        if(outputFile != NULL){
-            fprintf(outputFile, "%s\n", curr->title);
-            fclose(outputFile);
-        } 
+        int fd = open(outputFilePath, O_WRONLY | O_CREAT| O_APPEND, 0640);
+        if(fd == -1){
+            printf("Error: couln't open file %s\n", outputFilePath);
+            perror("Error");
+            free(outputFilePath);
+            curr = curr->next;
+            continue;
+        }
+
+        write(fd, curr->title, strlen(curr->title));
+        write(fd, "\n", 1);
+
+        close(fd);
 
         free(outputFilePath);
         curr = curr->next;
