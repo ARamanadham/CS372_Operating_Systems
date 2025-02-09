@@ -62,7 +62,7 @@ void moviesByYear(struct movie *head, const char *outputDir){
     while(curr){
         char fName[9]; //YYYY.txt + null terminator
 
-        char *outputFilePath = malloc(strlen(outputDir) + strlen(fName) + 1);
+        char *outputFilePath = malloc(strlen(outputDir) +1 + strlen(fName) + 1);
         sprintf(outputFilePath, "%s/%s", outputDir, fName);
         printf("%s", outputDir);
 
