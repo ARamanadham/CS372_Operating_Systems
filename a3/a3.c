@@ -221,6 +221,10 @@ void menu(){
         printf("2. Exit the progrm\n");
         printf("\nEnter a choice 1 or 2: ");
         scanf("%d", &choice);
+
+        if (choice != 1 && choice != 2){
+            printf("You entered an incorrect choice. Try again.\n\n");
+        }
         // creating a submenu
         if(choice == 1){
             int secondchoice;
