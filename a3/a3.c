@@ -84,15 +84,6 @@ void moviesByYear(struct movie *head, const char *outputDir){
         curr = curr->next;
     }
 }
-//printing linked list
-void printMovie(struct movie* head){
-    struct movie* temp = head;
-    while(temp != NULL){
-        printf("Movie Title: %s,", temp->title);
-        printf("Year: %d", temp->year);
-        temp = temp->next;
-    }
-}
 
 void freeMovie(struct movie* head){
     while (head != NULL){
@@ -260,7 +251,8 @@ void menu(){
                     break;
                 } else if (secondchoice == 2){
                     char *smallest = smallestFile();
-                    printf("Now processing the chosen file named %s\n\n", smallest);
+                    //printf("Now processing the chosen file named %s\n\n", smallest);
+                    processFile(smallest);
                     free(smallest);
                     break;
                 } else if (secondchoice == 3){
@@ -271,7 +263,8 @@ void menu(){
                     scanf("%s", &fname);
 
                     if(stat(&fname, &dirStat) == 0){
-                        printf("Processing file: %s\n\n", &fname);
+                        processFile(&fname);
+                        //printf("Processing file: %s\n\n", &fname);
                         break;
                     } else{
                         printf("The file %s was not found. Try again\n", &fname);
