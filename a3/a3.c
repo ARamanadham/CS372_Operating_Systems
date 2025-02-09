@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include <limits.h>
+#include <stdint.h>
 
 #define MAX_LANGS 5
 #define MAX_LEN 20
@@ -111,9 +113,13 @@ char* largestFile(void){
                 if(strstr(entry->d_name, ".csv") != NULL){
                     if(dirStat.st_size > maxSize){
                         maxSize =  dirStat.st_size;
+
+                        if(largestFile != NULL){
+                            free(largestFile);
+                        }
                         
                         largestFile = malloc(strlen(entry->d_name) + 1);
-                        strdup(entry->d_name);
+                        strcpy(largestFile, entry->d_name);
                     }
                 }
             }
@@ -131,25 +137,16 @@ char* smallestFile(void){
     struct stat dirStat;
 
     //Size_MAX found in man page for size_t
-    size_t minSize = 0;
+    size_t minSize = SIZE_MAX;
     char *smallestFile = NULL;
-    int firstFile = 0; // Flag to track first file to have initial minimum size
+    //int firstFile = 0; // Flag to track first file to have initial minimum size
 
     currDir = opendir(".");
     while((entry = readdir(currDir)) != NULL){
         if(stat(entry->d_name, &dirStat) == 0 && S_ISREG(dirStat.st_mode)){
             if(strncmp(entry->d_name, "movies_", 7) == 0){
                 if(strstr(entry->d_name, ".csv") != NULL){
-                    if(!firstFile){
-                        minSize = dirStat.st_size;
-
-                        if(smallestFile != NULL){
-                            free(smallestFile);
-                        }
-                        smallestFile = malloc(strlen(entry->d_name) + 1);
-                        strcpy(smallestFile, entry->d_name);
-                        firstFile = 1; //update flag so this doesn't trigger again
-                    } else if (dirStat.st_size < minSize) {
+                    if (dirStat.st_size < minSize) {
                         minSize = dirStat.st_size;
 
                         if(smallestFile != NULL){
