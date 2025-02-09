@@ -237,13 +237,11 @@ void menu(){
                     char *largest = largestFile();
                     //printf("Now processing the chosen file named %s\n\n", largest);
                     processFile(largest);
-                    free(largest);
                     break;
                 } else if (secondchoice == 2){
                     char *smallest = smallestFile();
                     //printf("Now processing the chosen file named %s\n\n", smallest);
                     processFile(smallest);
-                    free(smallest);
                     break;
                 } else if (secondchoice == 3){
                     char fname;
